@@ -2,6 +2,9 @@
 $(document).ready(function(){
 
 
+//
+//  PIANO ROLL 
+//
 
    // window.AudioContext = window.AudioContext || window.webkitAudioContext;
 
@@ -16,29 +19,43 @@ $(document).ready(function(){
 	           blackNotesColour: 'black',
 	           hoverColour: '#f3e939'
        },
-       keyboard = new QwertyHancock(settings);
+       keyboard = new QwertyHancock(settings),
+       freqMod = 0;
+
 
 
    masterGain = context.createGain();
    nodes = [];
-
-   masterGain.gain.value = 0.3;
+   masterGain.gain.value = 0.1;
    masterGain.connect(context.destination); 
+
+   osc2Gain = context.createGain();
+   osc2Gain.gain.value = 0.9;
+   osc2Gain.connect(context.destination); 
 
    keyboard.keyDown = function (note, frequency) {
        var oscillator = context.createOscillator();
        oscillator.type = 'square';
-       oscillator.frequency.value = frequency;
+       oscillator.frequency.value = frequency + freqMod;
        oscillator.connect(masterGain);
        oscillator.start(0);
        nodes.push(oscillator);
+
+       // var oscillator2 = context.createOscillator();
+       // oscillator2.type = 'saw';
+       // oscillator2.frequency.value = frequency;
+       // oscillator2.connect(osc2Gain);
+       // oscillator2.start(0);
+       // nodes.push(oscillator2);
    };
+
+
 
    keyboard.keyUp = function (note, frequency) {
        var new_nodes = [];
 
        for (var i = 0; i < nodes.length; i++) {
-           if (Math.round(nodes[i].frequency.value) === Math.round(frequency)) {
+           if (Math.round(nodes[i].frequency.value) === Math.round(frequency + freqMod)) {
                nodes[i].stop(0);
                nodes[i].disconnect();
            } else {
@@ -51,7 +68,9 @@ $(document).ready(function(){
 
 
 
-
+//
+//  SEQUENCER 
+//
 
 
 	var audio = new window.webkitAudioContext(),
@@ -72,42 +91,38 @@ $(document).ready(function(){
 	tempo = 250;
 	
 
-	interval = function() {setInterval(play, tempo)};
 
 
+	var intervalId;
 
-	// make the tempoSlider work
-	$(".tempoSlider").mousemove( function(){
-		tempo = 1 / $(this).val() * 400;
-	});
-
+		
 
 	$("#playNotes").click(function() {
-		interval();
+		stopIt();
+		tempoSlider = $(".tempoSlider").val();
+		tempo = 1/tempoSlider * 500;
+		console.log(tempo);
+		intervalId = setInterval(play, tempo);
 		song = $("#playNotesVal").val();
 	});
 	
-// HOW CAN I STOP THIS?
-	// $("#stop").click(function() {
-	// 	clearInterval(interval);
-	// 	console.log("stop")
-	// });
+
+	$("#stop").click(stopIt);
+
+
+	function stopIt() {
+		clearInterval(intervalId);
+		position = 0;
+	}
+
 
 
 	function createOscillator(freq) {
 
 		var gain = audio.createGain(),
 		osc = audio.createOscillator();
-
-		$(".attackSlider").mousemove( function(){
-			attack = $(this).val();
-		});
-
-		$(".decaySlider").mousemove( function(){
-			decay = $(this).val();
-		});
-
-		console.log(decay);
+		attack = $(".attackSlider").val();
+		decay = $(".decaySlider").val();
 
 		//set gain attack time
 		gain.connect(audio.destination);

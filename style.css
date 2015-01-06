@@ -3,3 +3,10 @@
 	width: 200px;
 	height: 50px;
 }
+
+.pads div {
+	width: 100px;
+	height: 100px;
+	background-color: yellow;
+	margin: 20px;	
+}
