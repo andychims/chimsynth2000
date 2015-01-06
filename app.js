@@ -10,14 +10,14 @@ $(document).ready(function(){
 
    var context = new AudioContext(),
        settings = {
-			 id: 'keyboard',
-	           width: 600,
-	           height: 150,
-	           octaves: 2,
-	           startNote: 'A3',
-	           whiteNotesColour: 'white',
-	           blackNotesColour: 'black',
-	           hoverColour: '#f3e939'
+			  id: 'keyboard',
+	        width: 600,
+	        height: 150,
+	        octaves: 2,
+	        startNote: 'A3',
+	        whiteNotesColour: 'white',
+	        blackNotesColour: 'black',
+	        hoverColour: '#f3e939'
        },
        keyboard = new QwertyHancock(settings),
        freqMod = 0;
@@ -82,9 +82,10 @@ $(document).ready(function(){
 		d: 220, //placeholder
 		e: 329.63,
 		f: 349.23,
-		g: 392
+		g: 750 //placeholder
 	},
-	song = "gfefgg-fff-gbb-gfefggggffgfe---",
+	// song = "gfefgg-fff-gbb-gfefggggffgfe---",
+	song = ["a","a","b","c"]
 	loop = 0,
 	attack = 200,
 	decay = 200,
@@ -95,6 +96,45 @@ $(document).ready(function(){
 
 	var intervalId;
 
+//
+//	 clicking on pad1 should insert "a" into song[0] array spot. Clicking pad2 inserts "d"
+//
+
+// should i make the pad id's in an object/array??
+	// padVals = {
+	// 	padOne = 
+	// }
+
+
+	$("#padOne").click(function() {
+		song[0] = "a";	
+		console.log(song);
+		$(".highlighted").removeClass("highlighted");
+		$(this).addClass("highlighted");
+	});
+
+	$("#padTwo").click(function() {
+		song[0] = "g";	
+		console.log(song);
+		$(".highlighted").removeClass("highlighted");
+		$(this).addClass("highlighted");
+	});	
+		
+	$("#padThree").click(function() {
+		song[0] = "c";	
+		console.log(song);
+		console.log(song);
+		$(".highlighted").removeClass("highlighted");
+		$(this).addClass("highlighted");
+			});	
+
+	$("#padFour").click(function() {
+		song[0] = "b";	
+		console.log(song);
+		console.log(song);
+		$(".highlighted").removeClass("highlighted");
+		$(this).addClass("highlighted");
+			});	
 		
 
 	$("#playNotes").click(function() {
@@ -103,7 +143,7 @@ $(document).ready(function(){
 		tempo = 1/tempoSlider * 500;
 		console.log(tempo);
 		intervalId = setInterval(play, tempo);
-		song = $("#playNotesVal").val();
+		// song = $("#playNotesVal").val();
 	});
 	 
 
@@ -147,7 +187,7 @@ $(document).ready(function(){
 
 
 	function play() {
-		var note = song.charAt(position),
+		var note = song[position],
 		freq = scale[note];
 		position += 1;
 		if(position >= song.length) {

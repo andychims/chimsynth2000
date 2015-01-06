@@ -18,31 +18,34 @@
 	<body>
 
 		<div id="keyboard"></div>
-		
-		<br>
-		<br>
-	
 
-		<input type="text" id="playNotesVal" value="gfefgg-fff-gbb-gfefggggffgfe---">
-		<button id="playNotes">play notes</button> <button id="stop">STOP!</button>
-		<br>
-		<br>
-		
-		<p>Tempo:</p>
-		<input class="tempoSlider" type="range" name="points" min="1" max="5">
 
-		<p>Attack:</p>
-		<input class="attackSlider" type="range" name="points" min="2" max="200">
+		<div class="controls">
+		<!-- 		<input type="text" id="playNotesVal" value="gfefgg-fff-gbb-gfefggggffgfe---">
+ -->		
+			<button id="playNotes">play notes</button> <button id="stop">STOP!</button>
+			<br>
+			<br>
+			<p>Tempo:</p>
+			<input class="tempoSlider" type="range" name="points" min="1" max="5">
 
-		<p>Decay:</p>
-		<input class="decaySlider" type="range" name="points" min="12" max="200">
+			<p>Attack:</p>
+			<input class="attackSlider" type="range" name="points" min="2" max="200">
+
+			<p>Decay:</p>
+			<input class="decaySlider" type="range" name="points" min="12" max="200">
+		</div>
 
 		<div class="pads">
-			<div id="padOne">pad 1</div>
-			<div id="padTwo"></div>
-			<div id="padThree"></div>
-			<div id="padFour"></div>
+			<p>first note:</p>
+			<div id="padOne" class="highlighted">A</div>
+			<div id="padTwo">B</div>
+			<div id="padThree">C</div>
+			<div id="padFour">D</div>
 		</div>
+
+		
+
 
 		<script src="qwerty-hancock.js"></script>
 	</body>
