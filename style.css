@@ -28,15 +28,15 @@ button {
 .pads {
 	padding-top: 30px;
 	float: left;
-	width:400px;
+	width:520px;
 }
 
-.firstCol, .secondCol {
+.firstCol, .secondCol, .thirdCol, .fourthCol {
 	width: 120px;
 	float: left;
 }
 
-.firstCol div, .secondCol div {
+.firstCol div, .secondCol div, .thirdCol div, .fourthCol div {
 	width: 60px;
 	height: 60px;
 	background-color: yellow;

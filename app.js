@@ -85,7 +85,7 @@ $(document).ready(function(){
 		f: 349.23,
 		g: 750 //placeholder
 	},
-	song = ["a","a","b","c"]
+	song = ["a","a","a","a"]
 	loop = 0,
 	attack = 200,
 	decay = 200,
@@ -93,62 +93,45 @@ $(document).ready(function(){
 	
 
    padVals = [
-   	{slot: 1, name:"padOne", note:"a"},
-   	{slot: 2, name:"padTwo", note:"g"}, 
-   	{slot: 3, name:"padThree", note:"b"}, 
-   	{slot: 4, name:"padFour", note:"e"},
-   	{slot: 1, name:"padFive", note:"a"},
-   	{slot: 2, name:"padSix", note:"g"}, 
-   	{slot: 3, name:"padSeven", note:"b"}, 
-   	{slot: 4, name:"padEight", note:"e"}   	
-   ];
+   	{column: 0, name:"padOne", note:"a"},
+   	{column: 0, name:"padTwo", note:"g"}, 
+   	{column: 0, name:"padThree", note:"b"}, 
+   	{column: 0, name:"padFour", note:"e"},
+   	{column: 1, name:"padFive", note:"a"},
+   	{column: 1, name:"padSix", note:"g"}, 
+   	{column: 1, name:"padSeven", note:"b"}, 
+   	{column: 1, name:"padEight", note:"e"}, 	
+   	{column: 2, name:"padNine", note:"a"},
+   	{column: 2, name:"padTen", note:"g"}, 
+   	{column: 2, name:"padEleven", note:"b"}, 
+   	{column: 2, name:"padTwelve", note:"e"},
+   	{column: 3, name:"padThirteen", note:"a"},
+   	{column: 3, name:"padFourteen", note:"g"}, 
+   	{column: 3, name:"padFifteen", note:"b"}, 
+   	{column: 3, name:"padSixteen", note:"e"}   	
+      ];
 
 
 
-
-//
-//	 clicking on pad1 should insert "a" into song[0] array spot. Clicking pad2 inserts "d"
-//
-
-// should i make the pad id's in an object/array??
-	// padVals = {
-	// 	padOne = 
-	// }
-
-	function highlightItOne(padNumber) {
-		$(".firstCol .highlighted").removeClass("highlighted");
+	// highlight the selected pad
+	function highlightIt(padNumber) {
+		$(padNumber).closest(".noteCol").find(".highlighted").removeClass("highlighted")
 		$(padNumber).addClass("highlighted");	
 	};
 
-	function highlightItTwo(padNumber) {
-		$(".secondCol .highlighted").removeClass("highlighted");
-		$(padNumber).addClass("highlighted");	
-	};	
-
+	// find the note value of the clicked note
    function getNote(padClicked) {
    	padNote = padVals.filter(function (padVals) { return padVals.name == padClicked });
+   	padColumn = padNote[0].column;
    	padNote = padNote[0].note;
-   	song[0] = padNote;
+   	song[padColumn] = padNote;
    };
 
-	$(document).on("click", "#padOne, #padTwo, #padThree, #padFour", function () { 
+   // clicking a pad updates the note in the sequencer
+	$(".noteCol").on("click", "#padOne, #padTwo, #padThree, #padFour, #padFive, #padSix, #padSeven, #padEight, #padNine, #padTen, #padEleven, #padTwelve, #padThirteen, #padFourteen, #padFourteen, #padFifteen, #padSixteen", function () { 
 	   padClicked = $(this).attr("id");
-	   highlightItOne("#" + padClicked);
+	   highlightIt("#" + padClicked);
 	   getNote(padClicked);
-	});
-
-
-
-   function getNoteTwo(padClicked) {
-   	padNote = padVals.filter(function (padVals) { return padVals.name == padClicked });
-   	padNote = padNote[0].note;
-   	song[1] = padNote;
-   };
-
-	$(document).on("click", "#padFive, #padSix, #padSeven, #padEight", function () { 
-	   padClicked = $(this).attr("id");
-	   highlightItTwo("#" + padClicked);
-	   getNoteTwo(padClicked);
 	});
 
 
@@ -185,7 +168,7 @@ $(document).ready(function(){
 		gain.connect(audio.destination);
 		gain.gain.setValueAtTime(0, audio.currentTime);
 		gain.gain.linearRampToValueAtTime(1, audio.currentTime + attack / 1000);
-		gain.gain.linearRampToValueAtTime(0, audio.currentTime + (decay + attack)/ 1000);
+		gain.gain.linearRampToValueAtTime(0, audio.currentTime + (decay + attack + 100)/ 1000);
 
 		osc.frequency.value = freq;
 		osc.type = "square";
