@@ -11,7 +11,7 @@ $(document).ready(function(){
    var context = new AudioContext(),
        settings = {
 			  id: 'keyboard',
-	        width: 600,
+	        width: 900,
 	        height: 150,
 	        octaves: 2,
 	        startNote: 'A3',
@@ -135,13 +135,20 @@ $(document).ready(function(){
 	});
 
 
-		
+	function getTempo() {
+		tempo = 1/($(".tempoSlider").val())*700;
+		console.log("getten tempo= " + tempo);
+	}
+
+	$(".tempoSlider").on("mouseup", function() {
+		clearInterval(intervalId);
+		getTempo();
+		intervalId = setInterval(play, tempo);
+	})
 
 	$("#playNotes").click(function() {
 		stopIt();
-		tempoSlider = $(".tempoSlider").val();
-		tempo = 1/tempoSlider * 500;
-		console.log(tempo);
+		// getTempo();
 		intervalId = setInterval(play, tempo);
 		// song = $("#playNotesVal").val();
 	});
