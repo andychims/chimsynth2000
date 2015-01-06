@@ -30,7 +30,13 @@ button {
 	float: left;
 	width:400px;
 }
-.pads div {
+
+.firstCol, .secondCol {
+	width: 120px;
+	float: left;
+}
+
+.firstCol div, .secondCol div {
 	width: 60px;
 	height: 60px;
 	background-color: yellow;

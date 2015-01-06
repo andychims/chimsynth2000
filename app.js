@@ -74,6 +74,7 @@ $(document).ready(function(){
 
 
 	var audio = new window.webkitAudioContext(),
+	intervalId,
 	position = 0,
 	scale = {
 		a: 150, //placeholder
@@ -84,7 +85,6 @@ $(document).ready(function(){
 		f: 349.23,
 		g: 750 //placeholder
 	},
-	// song = "gfefgg-fff-gbb-gfefggggffgfe---",
 	song = ["a","a","b","c"]
 	loop = 0,
 	attack = 200,
@@ -92,9 +92,19 @@ $(document).ready(function(){
 	tempo = 250;
 	
 
+   padVals = [
+   	{slot: 1, name:"padOne", note:"a"},
+   	{slot: 2, name:"padTwo", note:"g"}, 
+   	{slot: 3, name:"padThree", note:"b"}, 
+   	{slot: 4, name:"padFour", note:"e"},
+   	{slot: 1, name:"padFive", note:"a"},
+   	{slot: 2, name:"padSix", note:"g"}, 
+   	{slot: 3, name:"padSeven", note:"b"}, 
+   	{slot: 4, name:"padEight", note:"e"}   	
+   ];
 
 
-	var intervalId;
+
 
 //
 //	 clicking on pad1 should insert "a" into song[0] array spot. Clicking pad2 inserts "d"
@@ -105,36 +115,43 @@ $(document).ready(function(){
 	// 	padOne = 
 	// }
 
+	function highlightItOne(padNumber) {
+		$(".firstCol .highlighted").removeClass("highlighted");
+		$(padNumber).addClass("highlighted");	
+	};
 
-	$("#padOne").click(function() {
-		song[0] = "a";	
-		console.log(song);
-		$(".highlighted").removeClass("highlighted");
-		$(this).addClass("highlighted");
+	function highlightItTwo(padNumber) {
+		$(".secondCol .highlighted").removeClass("highlighted");
+		$(padNumber).addClass("highlighted");	
+	};	
+
+   function getNote(padClicked) {
+   	padNote = padVals.filter(function (padVals) { return padVals.name == padClicked });
+   	padNote = padNote[0].note;
+   	song[0] = padNote;
+   };
+
+	$(document).on("click", "#padOne, #padTwo, #padThree, #padFour", function () { 
+	   padClicked = $(this).attr("id");
+	   highlightItOne("#" + padClicked);
+	   getNote(padClicked);
 	});
 
-	$("#padTwo").click(function() {
-		song[0] = "g";	
-		console.log(song);
-		$(".highlighted").removeClass("highlighted");
-		$(this).addClass("highlighted");
-	});	
-		
-	$("#padThree").click(function() {
-		song[0] = "c";	
-		console.log(song);
-		console.log(song);
-		$(".highlighted").removeClass("highlighted");
-		$(this).addClass("highlighted");
-			});	
 
-	$("#padFour").click(function() {
-		song[0] = "b";	
-		console.log(song);
-		console.log(song);
-		$(".highlighted").removeClass("highlighted");
-		$(this).addClass("highlighted");
-			});	
+
+   function getNoteTwo(padClicked) {
+   	padNote = padVals.filter(function (padVals) { return padVals.name == padClicked });
+   	padNote = padNote[0].note;
+   	song[1] = padNote;
+   };
+
+	$(document).on("click", "#padFive, #padSix, #padSeven, #padEight", function () { 
+	   padClicked = $(this).attr("id");
+	   highlightItTwo("#" + padClicked);
+	   getNoteTwo(padClicked);
+	});
+
+
 		
 
 	$("#playNotes").click(function() {
@@ -153,7 +170,7 @@ $(document).ready(function(){
 	function stopIt() {
 		clearInterval(intervalId);
 		position = 0;
-	}
+	};
 
 
 
