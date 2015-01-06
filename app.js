@@ -135,28 +135,32 @@ $(document).ready(function(){
 	});
 
 
+	// set tempo var based on slider position
 	function getTempo() {
 		tempo = 1/($(".tempoSlider").val())*700;
-		console.log("getten tempo= " + tempo);
 	}
 
+	$(".tempoVal").text(tempo);
+
+	// on mouseup of tempo slider, update the tempo var and reset the setInterval
 	$(".tempoSlider").on("mouseup", function() {
 		clearInterval(intervalId);
 		getTempo();
+		$(".tempoVal").text(Math.floor(tempo));
 		intervalId = setInterval(play, tempo);
 	})
 
+	// on clicking play stop existing playing and start playing
 	$("#playNotes").click(function() {
 		stopIt();
-		// getTempo();
 		intervalId = setInterval(play, tempo);
 		// song = $("#playNotesVal").val();
 	});
 	 
-
+	// on clicking stop, stop music
 	$("#stop").click(stopIt);
 
-
+	// stop music function - reset play position and clear interval
 	function stopIt() {
 		clearInterval(intervalId);
 		position = 0;
