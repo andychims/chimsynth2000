@@ -105,7 +105,7 @@ $(document).ready(function(){
 		intervalId = setInterval(play, tempo);
 		song = $("#playNotesVal").val();
 	});
-	
+	 
 
 	$("#stop").click(stopIt);
 
