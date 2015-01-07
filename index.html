@@ -34,10 +34,19 @@
 
 			<p>Decay:</p>
 			<input class="decaySlider" type="range" name="points" min="12" max="200">
+
+			<p>Filter Freq:</p>
+			<input class="filterSlider" type="range" name="points" min="100" max="4000">			
+
+			<p>Filter Res:</p>
+			<input class="filterQSlider" type="range" name="points" min="0" max="100">						
+			<p>Distortion:</p>
+			<input class="distortionSlider" type="range" name="points" min="0" max="2000" defaultValue="100">		
 		</div>
 
 		<div class="pads">
-			<div class="noteCol firstCol">
+			<div class="noteCol firstCol" id="firstCol">
+				<div class="colCounter colCounterHighlighted"></div>
 				<p>first note:</p>
 				<div id="padOne" class="highlighted">A</div>
 				<div id="padTwo">B</div>
@@ -45,7 +54,8 @@
 				<div id="padFour">D</div>
 			</div>
 
-			<div class="noteCol secondCol">
+			<div class="noteCol secondCol" id="secondCol">
+				<div class="colCounter"></div>
 				<p>second note:</p>
 				<div id="padFive" class="highlighted">A</div>
 				<div id="padSix">B</div>
@@ -53,13 +63,15 @@
 				<div id="padEight">D</div>
 			</div>
 			<div class="noteCol thirdCol">
+				<div class="colCounter"></div>
 				<p>second note:</p>
 				<div id="padNine" class="highlighted">A</div>
 				<div id="padTen">B</div>
 				<div id="padEleven">C</div>
 				<div id="padTwelve">D</div>
 			</div>
-			<div class="noteCol thirdCol">
+			<div class="noteCol fourthCol">
+				<div class="colCounter"></div>
 				<p>second note:</p>
 				<div id="padThirteen" class="highlighted">A</div>
 				<div id="padFourteen">B</div>

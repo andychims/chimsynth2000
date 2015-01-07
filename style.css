@@ -37,6 +37,13 @@ button {
 	width: 140px;
 }
 
+.colCounter {
+	height: 7px !important;
+}
+
+.colCounterHighlighted {
+	background-color: rgb(181, 255, 181) !important;
+}
 
 .pads {
 	padding-top: 30px;

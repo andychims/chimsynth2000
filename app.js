@@ -28,6 +28,7 @@ $(document).ready(function(){
    nodes = [];
    masterGain.gain.value = 0.1;
    masterGain.connect(context.destination); 
+   
 
    osc2Gain = context.createGain();
    osc2Gain.gain.value = 0.9;
@@ -48,8 +49,6 @@ $(document).ready(function(){
        // oscillator2.start(0);
        // nodes.push(oscillator2);
    };
-
-
 
    keyboard.keyUp = function (note, frequency) {
        var new_nodes = [];
@@ -85,7 +84,7 @@ $(document).ready(function(){
 		f: 349.23,
 		g: 750 //placeholder
 	},
-	song = ["a","a","a","a"]
+	song = ["a","a","a","a"],
 	loop = 0,
 	attack = 200,
 	decay = 200,
@@ -113,6 +112,10 @@ $(document).ready(function(){
 
 
 
+	// highlight the column on beat
+
+
+
 	// highlight the selected pad
 	function highlightIt(padNumber) {
 		$(padNumber).closest(".noteCol").find(".highlighted").removeClass("highlighted")
@@ -130,6 +133,7 @@ $(document).ready(function(){
    // clicking a pad updates the note in the sequencer
 	$(".noteCol").on("click", "#padOne, #padTwo, #padThree, #padFour, #padFive, #padSix, #padSeven, #padEight, #padNine, #padTen, #padEleven, #padTwelve, #padThirteen, #padFourteen, #padFourteen, #padFifteen, #padSixteen", function () { 
 	   padClicked = $(this).attr("id");
+	   rowClicked = $(this).attr("id");
 	   highlightIt("#" + padClicked);
 	   getNote(padClicked);
 	});
@@ -168,15 +172,50 @@ $(document).ready(function(){
 
 
 
+	// Distortion curve, not sure what it does but i guess i need it
+	function makeDistortionCurve(amount) {
+	  var k = typeof amount === 'number' ? amount : 50,
+	    n_samples = 44100,
+	    curve = new Float32Array(n_samples),
+	    deg = Math.PI / 180,
+	    i = 0,
+	    x;
+	  for ( ; i < n_samples; ++i ) {
+	    x = i * 2 / n_samples - 1;
+	    curve[i] = ( 3 + k ) * x * 20 * deg / ( Math.PI + k * Math.abs(x) );
+	  }
+	  return curve;
+	  console.log(curve);
+	};
+
+
 	function createOscillator(freq) {
 
 		var gain = audio.createGain(),
-		osc = audio.createOscillator();
-		attack = $(".attackSlider").val();
-		decay = $(".decaySlider").val();
+		osc = audio.createOscillator(),
+		filter = audio.createBiquadFilter(),
+		distortion = audio.createWaveShaper();
+		
+// Distortion params -- WHY IS SLIDER NOT WORKING??
+		distortionCurveAmount = $(".distortionSlider").val(),
+		distortion.curve = makeDistortionCurve(distortionCurveAmount);
+		distortion.oversample = '4x';
+	
+		// Filter params
+		filterFreq = $(".filterSlider").val();
+		filterQ = $(".filterQSlider").val();
+		filter.type = "lowpass";
+		filter.frequency.value = filterFreq;
+		filter.Q.value = filterQ;
 
-		//set gain attack time
-		gain.connect(audio.destination);
+		// connect gain > filter > distortion > output
+		gain.connect(filter);
+		filter.connect(distortion);
+		distortion.connect(audio.destination);
+
+		// set gain attack time
+		attack = $(".attackSlider").val(),
+		decay = $(".decaySlider").val(),
 		gain.gain.setValueAtTime(0, audio.currentTime);
 		gain.gain.linearRampToValueAtTime(1, audio.currentTime + attack / 1000);
 		gain.gain.linearRampToValueAtTime(0, audio.currentTime + (decay + attack + 100)/ 1000);
@@ -186,7 +225,7 @@ $(document).ready(function(){
 		osc.connect(gain);
 		osc.start(0);
 
-		//remove the note after decay time
+		// remove the note after decay time
 		setTimeout(function() {
 			osc.stop(0);
 			osc.disconnect(gain);
@@ -196,10 +235,15 @@ $(document).ready(function(){
 	}
 
 
+	var colCounter = ["firstCol", "secondCol", "thirdCol", "fourthCol"];
 
 	function play() {
 		var note = song[position],
 		freq = scale[note];
+		var colCount = colCounter[position];
+		
+		$(".colCounterHighlighted").removeClass("colCounterHighlighted");
+		$('.' + colCount).find(".colCounter").addClass("colCounterHighlighted"); //.closest(".colCounter")); //.addClass("colCounterHighlighted");
 		position += 1;
 		if(position >= song.length) {
 			position = 0;
