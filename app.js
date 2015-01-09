@@ -67,9 +67,19 @@ $(document).ready(function(){
 
 
 
+
+
+
+// 
 //
 //  SEQUENCER 
 //
+// 
+// 
+
+
+
+
 
 
 	var audio = new window.webkitAudioContext(),
@@ -88,32 +98,53 @@ $(document).ready(function(){
 	loop = 0,
 	attack = 200,
 	decay = 200,
-	tempo = 250;
+	tempo = 250,
+	oscTwoFreq = 3/2;
 	
 
    padVals = [
-   	{column: 0, name:"padOne", note:"a"},
-   	{column: 0, name:"padTwo", note:"g"}, 
-   	{column: 0, name:"padThree", note:"b"}, 
-   	{column: 0, name:"padFour", note:"e"},
-   	{column: 1, name:"padFive", note:"a"},
-   	{column: 1, name:"padSix", note:"g"}, 
-   	{column: 1, name:"padSeven", note:"b"}, 
-   	{column: 1, name:"padEight", note:"e"}, 	
-   	{column: 2, name:"padNine", note:"a"},
-   	{column: 2, name:"padTen", note:"g"}, 
-   	{column: 2, name:"padEleven", note:"b"}, 
-   	{column: 2, name:"padTwelve", note:"e"},
-   	{column: 3, name:"padThirteen", note:"a"},
-   	{column: 3, name:"padFourteen", note:"g"}, 
-   	{column: 3, name:"padFifteen", note:"b"}, 
-   	{column: 3, name:"padSixteen", note:"e"}   	
+   	{column: 0, padNumber: 0, name:"padOne", note:"a"},
+   	{column: 0, padNumber: 1, name:"padTwo", note:"g"}, 
+   	{column: 0, padNumber: 2, name:"padThree", note:"b"}, 
+   	{column: 0, padNumber: 3, name:"padFour", note:"e"},
+   	{column: 1, padNumber: 0, name:"padFive", note:"a"},
+   	{column: 1, padNumber: 1, name:"padSix", note:"g"}, 
+   	{column: 1, padNumber: 2, name:"padSeven", note:"b"}, 
+   	{column: 1, padNumber: 3, name:"padEight", note:"e"}, 	
+   	{column: 2, padNumber: 0, name:"padNine", note:"a"},
+   	{column: 2, padNumber: 1, name:"padTen", note:"g"}, 
+   	{column: 2, padNumber: 2, name:"padEleven", note:"b"}, 
+   	{column: 2, padNumber: 3, name:"padTwelve", note:"e"},
+   	{column: 3, padNumber: 0, name:"padThirteen", note:"a"},
+   	{column: 3, padNumber: 1, name:"padFourteen", note:"g"}, 
+   	{column: 3, padNumber: 2, name:"padFifteen", note:"b"}, 
+   	{column: 3, padNumber: 3, name:"padSixteen", note:"e"}   	
       ];
 
 
 
-	// highlight the column on beat
+// generate the pads in html
+    //   function generatePads () {      	
+    //   	for (var i = 0; i < 4; i++) {
+    //   		var column = i;
 
+    //   		$(".padsTwo").append("<div class='noteCol'>asdf</div>");
+
+   	// 		for (var i = 0; i < padVals.length; i++) {
+	   //    		console.log (padVals[i].name);
+	   //    		$(".padsTwo .noteCol").append("<div id='" + padVals[i].name + "'>" + padVals[i].note + "</div>");
+				// };
+    //   	};
+    //   };
+
+    //   generatePads();
+
+      // choose freq of oscTwo
+      $(".intervalSelector span").click(function() {
+      	oscTwoFreq = $(this).attr("value");
+      	$(".oscFreqSelected").removeClass("oscFreqSelected");
+			$(this).addClass("oscFreqSelected");	
+      });
 
 
 	// highlight the selected pad
@@ -124,6 +155,7 @@ $(document).ready(function(){
 
 	// find the note value of the clicked note
    function getNote(padClicked) {
+   // function getNote(rowClicked, columnClicked) {
    	padNote = padVals.filter(function (padVals) { return padVals.name == padClicked });
    	padColumn = padNote[0].column;
    	padNote = padNote[0].note;
@@ -131,12 +163,21 @@ $(document).ready(function(){
    };
 
    // clicking a pad updates the note in the sequencer
-	$(".noteCol").on("click", "#padOne, #padTwo, #padThree, #padFour, #padFive, #padSix, #padSeven, #padEight, #padNine, #padTen, #padEleven, #padTwelve, #padThirteen, #padFourteen, #padFourteen, #padFifteen, #padSixteen", function () { 
+	// $(".noteCol").on("click", "#padOne, #padTwo, #padThree, #padFour, #padFive, #padSix, #padSeven, #padEight, #padNine, #padTen, #padEleven, #padTwelve, #padThirteen, #padFourteen, #padFourteen, #padFifteen, #padSixteen", function () { 
+	$(".noteCol div").on("click", function () { 
 	   padClicked = $(this).attr("id");
-	   rowClicked = $(this).attr("id");
 	   highlightIt("#" + padClicked);
 	   getNote(padClicked);
 	});
+
+//trying to refactor the above...
+	// $(".noteCol div").on("click", function () { 
+	//    columnClicked = $(this).closest(".noteCol").attr("value");
+	//    rowClicked = $(this).attr("row");
+	//  console.log("row = " + rowClicked + ", column = " + columnClicked);
+	//    highlightIt("#" + padClicked);
+	//    getNote(rowClicked, columnClicked);
+	// });	
 
 
 	// set tempo var based on slider position
@@ -144,13 +185,11 @@ $(document).ready(function(){
 		tempo = 1/($(".tempoSlider").val())*700;
 	}
 
-	$(".tempoVal").text(tempo);
 
 	// on mouseup of tempo slider, update the tempo var and reset the setInterval
 	$(".tempoSlider").on("mouseup", function() {
 		clearInterval(intervalId);
 		getTempo();
-		$(".tempoVal").text(Math.floor(tempo));
 		intervalId = setInterval(play, tempo);
 	})
 
@@ -193,9 +232,23 @@ $(document).ready(function(){
 
 		var gain = audio.createGain(),
 		osc = audio.createOscillator(),
+		oscTwo = audio.createOscillator(),
 		filter = audio.createBiquadFilter(),
 		distortion = audio.createWaveShaper();
 		
+		// create osc1
+		osc.frequency.value = freq;
+		osc.type = "square";
+		osc.connect(gain);
+		osc.start(0);
+
+		// create osc2
+		console.log(oscTwoFreq);
+		oscTwo.frequency.value = freq * oscTwoFreq;
+		oscTwo.type = "sine";
+		oscTwo.connect(audio.destination);
+		oscTwo.start(0);
+
 // Distortion params -- WHY IS SLIDER NOT WORKING??
 		distortionCurveAmount = $(".distortionSlider").val(),
 		distortion.curve = makeDistortionCurve(distortionCurveAmount);
@@ -220,16 +273,15 @@ $(document).ready(function(){
 		gain.gain.linearRampToValueAtTime(1, audio.currentTime + attack / 1000);
 		gain.gain.linearRampToValueAtTime(0, audio.currentTime + (decay + attack + 100)/ 1000);
 
-		osc.frequency.value = freq;
-		osc.type = "square";
-		osc.connect(gain);
-		osc.start(0);
-
 		// remove the note after decay time
 		setTimeout(function() {
 			osc.stop(0);
 			osc.disconnect(gain);
 			gain.disconnect(audio.destination);
+
+			oscTwo.stop(0);
+			oscTwo.disconnect(gain);
+
 		}, decay)
 
 	}
@@ -253,6 +305,49 @@ $(document).ready(function(){
 			createOscillator(freq);
 	  	}
 	}
+
+
+// 
+// 
+// 
+//      DRUM PADS
+// 
+// 
+// 
+
+// function to load the audio files:
+	// Accept the URL for the audio file
+	// Load that file via an XMLHttpRequest
+	// Decode the audio for use within the AudioContext
+	// Provide some means of accessing the decoded source.
+
+// function loadAudio( object, url) {
+ 
+//     var request = new XMLHttpRequest();
+//     request.open('GET', url, true);
+//     request.responseType = 'arraybuffer';
+ 
+//     request.onload = function() {
+//         context.decodeAudioData(request.response, function(buffer) {
+//             object.buffer = buffer;
+//         });
+//     }
+//     request.send();
+// }
+
+
+// var request = new XMLHttpRequest();
+// request.open('GET', url, true);
+// request.responseType = 'arraybuffer';
+
+
+
+
+
+
+
+
+
 
 
 

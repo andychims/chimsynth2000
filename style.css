@@ -9,10 +9,6 @@ body {
 	height: 50px;
 }
 
-.attackSlider, .decaySlider, .tempoSlider {
-	width: 284px;
-	padding-bottom: 20px;
-}
 
 #playNotes {
 	background-color: rgb(181, 255, 181);
@@ -28,8 +24,16 @@ body {
 	padding-top: 30px;
 }
 
+.controlLabel {
+	font-weight: bold;
+}
+
 .highlighted {
 	background-color: rgb(181, 255, 181) !important;
+}
+
+.oscFreqSelected {
+	background-color: rgb(199, 199, 199);
 }
 
 button {
@@ -45,7 +49,7 @@ button {
 	background-color: rgb(181, 255, 181) !important;
 }
 
-.pads {
+.pads, .padsTwo {
 	padding-top: 30px;
 	float: left;
 	width:520px;
@@ -62,3 +66,67 @@ button {
 	border: 1px solid #999;
 	margin: 10px;
 }
+
+.padsTwo #noteCol {
+	height:20px;
+	width:20px;
+	background-color: green;
+}
+
+/* 
+=========	STYLE THE SLIDERS
+*/
+
+input[type=range]{
+	-webkit-appearance: none;
+	padding: 4px 0 18px;
+	width: 200px;
+}
+
+input[type=range]::-webkit-slider-runnable-track {
+    width: 300px;
+    height: 5px;
+    background: #ddd;
+    border: none;
+    border-radius: 3px;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 16px;
+    width: 16px;
+    border-radius: 50%;
+    background: black;
+    margin-top: -4px;
+}
+
+input[type=range]:focus {
+    outline: none;
+}
+
+input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ccc;
+}
+
+/*
+======	STYLE THE DRUM PADS
+*/
+
+#sp {
+	width: 400px;
+	float: left;
+}
+
+#sp div {
+	display: inline-block;
+	margin: 10px;
+	width: 125px;
+	height: 125px;
+	background-color: gray;
+}
+
+
+
+
+
