@@ -3,6 +3,14 @@ body {
 	margin: auto;
 	width: 1000px;
 }
+
+h1 {
+	padding-bottom: 25px;
+	font-size: 3em;
+	font-style: italic;
+}
+
+
 #osc {
 	background-color: orange;
 	width: 200px;
