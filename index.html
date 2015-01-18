@@ -19,83 +19,82 @@
 
 	<h1>ChimSynth2000!!!</h1>
 
-		<div id="keyboard"></div>
 
+	<div class="transport">
+			<button id="playNotes">PLAY</button> 
+			<button id="stop">STOP</button>
+			<div id="tempo">
+				<p class="controlLabel">Tempo: <span class="tempoVal"></span></p>
+				<input class="tempoSlider" type="range" name="points" min="2" max="7" step=".1"> 
+			</div>
+	</div>
+		
+	<div class="controls">
+		<p class="controlLabel">Osc 2 Freq:</p>
+			<p class="intervalSelector">
+				<span id="octaveInterval" value="2">octave,</span>
+				<span id="fourthInterval" value="1.3333">fourth,</span>
+				<span id="fifthInterval" class="oscFreqSelected" value="1.5">fifth,</span>
+				<span id="minorThirdInterval" value="1.2">minor third</span></p>
+		<br>
 
-		<div class="controls">
-		<!-- 		<input type="text" id="playNotesVal" value="gfefgg-fff-gbb-gfefggggffgfe---">
- -->		
-			<button id="playNotes">PLAY</button> <button id="stop">STOP</button>
-			<br>
-			<br>
-			<p class="controlLabel">Tempo: <span class="tempoVal"></span></p>
-			<input class="tempoSlider" type="range" name="points" min="2" max="7" step=".1"> 
+		<p class="controlLabel">Attack: <span class="attackVal"></span></p>
+		<input class="attackSlider" type="range" name="points" min="2" max="200">
 
-			<p class="controlLabel">Osc 2 Freq:</p>
-				<p class="intervalSelector">
-					<span id="octaveInterval" value="2">octave,</span>
-					<span id="fourthInterval" value="1.3333">fourth,</span>
-					<span id="fifthInterval" class="oscFreqSelected" value="1.5">fifth,</span>
-					<span id="minorThirdInterval" value="1.2">minor third</span></p>
-			<br>
+		<p class="controlLabel">Decay:</p>
+		<input class="decaySlider" type="range" name="points" min="12" max="200">
 
-			<p class="controlLabel">Attack: <span class="attackVal"></span></p>
-			<input class="attackSlider" type="range" name="points" min="2" max="200">
+		<p class="controlLabel">Filter Freq:</p>
+		<input class="filterSlider" type="range" name="points" min="100" max="4000">			
 
-			<p class="controlLabel">Decay:</p>
-			<input class="decaySlider" type="range" name="points" min="12" max="200">
+		<p class="controlLabel">Filter Res:</p>
+		<input class="filterQSlider" type="range" name="points" min="0" max="100">						
+		<p class="controlLabel">Distortion:</p>
+		<input class="distortionSlider" type="range" name="points" min="0" max="2000" defaultValue="100">		
+	</div>
 
-			<p class="controlLabel">Filter Freq:</p>
-			<input class="filterSlider" type="range" name="points" min="100" max="4000">			
-
-			<p class="controlLabel">Filter Res:</p>
-			<input class="filterQSlider" type="range" name="points" min="0" max="100">						
-			<p class="controlLabel">Distortion:</p>
-			<input class="distortionSlider" type="range" name="points" min="0" max="2000" defaultValue="100">		
+	<div class="pads">
+		<div class="noteCol firstCol" id="firstCol" value="0">
+			<div class="colCounter colCounterHighlighted"></div>
+			<p>first note:</p>
+			<div id="padOne" class="highlighted" row="0">A</div>
+			<div id="padTwo" row="1">B</div>
+			<div id="padThree" row="2">C</div>
+			<div id="padFour" row="3">D</div>
 		</div>
 
-		<div class="pads">
-			<div class="noteCol firstCol" id="firstCol" value="0">
-				<div class="colCounter colCounterHighlighted"></div>
-				<p>first note:</p>
-				<div id="padOne" class="highlighted" row="0">A</div>
-				<div id="padTwo" row="1">B</div>
-				<div id="padThree" row="2">C</div>
-				<div id="padFour" row="3">D</div>
-			</div>
-
-			<div class="noteCol secondCol" id="secondCol"  value="1">
-				<div class="colCounter"></div>
-				<p>second note:</p>
-				<div id="padFive" class="highlighted" row="0">A</div>
-				<div id="padSix" row="1">B</div>
-				<div id="padSeven" row="2">C</div>
-				<div id="padEight" row="3">D</div>
-			</div>
-			<div class="noteCol thirdCol">
-				<div class="colCounter"></div>
-				<p>second note:</p>
-				<div id="padNine" class="highlighted" row="0">A</div>
-				<div id="padTen" row="1">B</div>
-				<div id="padEleven" row="2">C</div>
-				<div id="padTwelve" row="3">D</div>
-			</div>
-			<div class="noteCol fourthCol">
-				<div class="colCounter"></div>
-				<p>second note:</p>
-				<div id="padThirteen" class="highlighted" row="0">A</div>
-				<div id="padFourteen" row="1">B</div>
-				<div id="padFifteen" row="2">C</div>
-				<div id="padSixteen" row="3">D</div>
-			</div>
+		<div class="noteCol secondCol" id="secondCol"  value="1">
+			<div class="colCounter"></div>
+			<p>second note:</p>
+			<div id="padFive" class="highlighted" row="0">A</div>
+			<div id="padSix" row="1">B</div>
+			<div id="padSeven" row="2">C</div>
+			<div id="padEight" row="3">D</div>
 		</div>
+		<div class="noteCol thirdCol">
+			<div class="colCounter"></div>
+			<p>second note:</p>
+			<div id="padNine" class="highlighted" row="0">A</div>
+			<div id="padTen" row="1">B</div>
+			<div id="padEleven" row="2">C</div>
+			<div id="padTwelve" row="3">D</div>
+		</div>
+		<div class="noteCol fourthCol">
+			<div class="colCounter"></div>
+			<p>second note:</p>
+			<div id="padThirteen" class="highlighted" row="0">A</div>
+			<div id="padFourteen" row="1">B</div>
+			<div id="padFifteen" row="2">C</div>
+			<div id="padSixteen" row="3">D</div>
+		</div>
+	</div>
 
-		<div class="padsTwo">
-			<div class="noteCol firstCol">
-				
-			</div>
+	<div class="padsTwo">
+		<div class="noteCol firstCol">
 			
 		</div>
+		
+	</div>
 
 
 		

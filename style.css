@@ -11,12 +11,20 @@ h1 {
 }
 
 
+.transport {
+	float:left;
+}
+
 #osc {
 	background-color: orange;
 	width: 200px;
 	height: 50px;
 }
 
+#playNotes, #stop, #tempo {
+	float:left;
+	margin: 10px 25px 0 0 ;
+}
 
 #playNotes {
 	background-color: rgb(181, 255, 181);
@@ -24,12 +32,15 @@ h1 {
 
 #stop {
 	background-color: rgb(255, 138, 138);
+
 }
+
 
 .controls {
 	float: left;
 	width:400px;
 	padding-top: 30px;
+	clear:both;
 }
 
 .controlLabel {
